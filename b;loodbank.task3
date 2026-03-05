@@ -1,0 +1,95 @@
+import java.util.Scanner;
+
+// Custom Exception
+class InvalidBloodGroupException extends Exception {
+    InvalidBloodGroupException(String message) {
+        super(message);
+    }
+}
+
+public class BloodBankExceptionHandling {
+
+    // Method to validate blood group
+    static void validateBloodGroup(String bg) throws InvalidBloodGroupException {
+
+        String[] valid = {"A+","A-","B+","B-","O+","O-","AB+","AB-"};
+
+        boolean found = false;
+
+        for(String v : valid) {
+            if(v.equals(bg)) {
+                found = true;
+                break;
+            }
+        }
+
+        if(!found) {
+            throw new InvalidBloodGroupException("Invalid Blood Group!");
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        try {
+
+            System.out.println("---- BLOOD BANK MANAGEMENT SYSTEM ----");
+
+            System.out.print("Enter Donor Name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter Age: ");
+            int age = sc.nextInt();
+            sc.nextLine();
+
+            if(age < 18) {
+                throw new IllegalArgumentException("Donor must be 18+");
+            }
+
+            System.out.print("Enter Blood Group: ");
+            String bg = sc.nextLine();
+
+            validateBloodGroup(bg);
+
+            System.out.println("Donor Registered Successfully");
+
+        }
+
+        catch(IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        catch(InvalidBloodGroupException e) {
+            System.out.println(e.getMessage());
+        }
+
+        catch(Exception e) {
+            System.out.println("Unexpected Error occurred");
+        }
+
+        finally {
+            System.out.println("Operation Completed.");
+        }
+
+        sc.close();
+    }
+}
+output:-
+---- BLOOD BANK MANAGEMENT SYSTEM ----
+
+Enter Donor Name: Ahmed
+Enter Age: 22
+Enter Blood Group: O+
+
+Donor Registered Successfully
+Operation Completed.
+
+---- BLOOD BANK MANAGEMENT SYSTEM ----
+
+Enter Donor Name: John
+Enter Age: 25
+Enter Blood Group: X+
+
+Invalid Blood Group!
+Operation Completed.
